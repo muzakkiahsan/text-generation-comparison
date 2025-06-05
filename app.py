@@ -4,20 +4,21 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import time
 
 # === Model Loader ===
+
 @st.cache_resource
-def load_opt_125m():
-    model_id = "facebook/opt-125m"
+def load_mistral_7b():
+    model_id = "mistralai/Mistral-7B-Instruct-v0.3"
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id)
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16) # Use bfloat16 for efficiency
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     return tokenizer, model, device
 
 @st.cache_resource
-def load_gpt2():
-    model_id = "openai-community/gpt2"
+def load_fathom_14b():
+    model_id = "FractalAIResearch/Fathom-R1-14B"
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(model_id)
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16) # Use bfloat16 for efficiency
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     return tokenizer, model, device
